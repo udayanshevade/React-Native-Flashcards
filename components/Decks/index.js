@@ -1,59 +1,79 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import { Card, List, ListItem, Icon } from 'react-native-elements';
+import { View, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { Card, Text, List, ListItem } from 'react-native-elements';
+import Filter from '../Filter';
+import { CreateDeckButton } from '../CreateDeck';
 import { getFilteredDecks, getDecksLoading } from './selectors';
+import styles from './styles';
 
-export const Deck = ({ deck }) => {
+const DeckError = () => <Text>An error occurred. Try again.</Text>;
+
+export const DeckPreview = ({ deck, navigation }) => {
   const { title = '', questions = [] } = deck;
+  const qLen = questions.length;
   return (
     <View style={styles.deckContainer}>
-      <Card title={title}>
-        <Text style={styles.subtitle}>{questions.length} cards</Text>
-      </Card>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('DeckView', {
+            title,
+          });
+        }}
+      >
+        <Card title={title} containerStyle={[styles.deckCard, styles.deckCardBorders]}>
+          <Text style={styles.subtitle}>{qLen} card{qLen !== 1 ? 's' : ''}</Text>
+        </Card>
+      </TouchableOpacity>
     </View>
   );
 };
 
-const Decks = ({ decks, isLoading }) => {
-  if (isLoading) return <ActivityIndicator />;
-  if (!decks || typeof decks !== 'object') return <Text>An error occurred. Try again.</Text>;
+const Decks = ({ decks, navigation }) => {
   const deckKeys = Object.keys(decks);
-  if (!deckKeys.length) {
-    return (
-      <Card>
-        <Icon type="foundation" name="folder-add" />
-        <Text>Create a deck</Text>
-      </Card>
-    );
-  }
   return (
     <View style={styles.container}>
-      {deckKeys.map(deckKey => (
-        <Deck deck={decks[deckKey]} key={`${deckKey}-deck`} />
-      ))}
+      {deckKeys.length
+        ? (
+          <List containerStyle={[styles.container, styles.list]}>
+            <FlatList
+              data={deckKeys.map(deckKey => decks[deckKey])}
+              renderItem={({ item }) => (
+                <ListItem
+                  title={<DeckPreview deck={item} navigation={navigation} />}
+                  hideChevron
+                  containerStyle={styles.listItem}
+                />
+              )}
+              keyExtractor={({ title }) => `${title}-deck`}
+            />
+          </List>
+        )
+        : (
+          <View style={styles.container}>
+            <Text h4>No decks found. Create one:</Text>
+            <CreateDeckButton navigation={navigation} />
+          </View>
+        )
+      }
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  deckContainer: {
-    minWidth: '100%',
-    minHeight: 100,
-  },
-  subtitle: {
-    textAlign: 'center',
-  },
-});
+const DecksList = ({ decks, isLoading, navigation }) => {
+  if (isLoading) return <ActivityIndicator />;
+  if (!decks || typeof decks !== 'object') return <DeckError />;
+  return (
+    <View style={styles.container}>
+      <Filter />
+      <Decks decks={decks} navigation={navigation} />
+    </View>
+  );
+};
 
 const mapStateToProps = ({ decks }) => ({
   decks: getFilteredDecks(decks),
   isLoading: getDecksLoading(decks),
 });
 
-export default connect(mapStateToProps)(Decks);
+export default connect(mapStateToProps)(DecksList);

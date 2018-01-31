@@ -20,6 +20,27 @@ export const initialState = {
         answer: 'The combination of a function and the lexical environment within which that function was declared.',
       }],
     },
+    Redux: {
+      title: 'Redux',
+      questions: [{
+        question: 'What is a closure?',
+        answer: 'The combination of a function and the lexical environment within which that function was declared.',
+      }],
+    },
+    Synonyms: {
+      title: 'Synonyms',
+      questions: [{
+        question: 'What is a closure?',
+        answer: 'The combination of a function and the lexical environment within which that function was declared.',
+      }],
+    },
+    Fables: {
+      title: 'Fables',
+      questions: [{
+        question: 'What is a closure?',
+        answer: 'The combination of a function and the lexical environment within which that function was declared.',
+      }],
+    },
   },
   isLoading: false,
   filter: '',
@@ -31,6 +52,12 @@ const reducer = (state = initialState, action) => {
       return immutable.set(state, 'isLoading', action.isLoading);
     case types.DECKS_SET_DATA:
       return immutable.set(state, 'data', action.data);
+    case types.DECKS_ADD_DATA: {
+      const { newData } = action;
+      return immutable.set(state, ['data', newData.title], newData);
+    }
+    case types.DECKS_REMOVE_DATA:
+      return immutable.set(state, 'data', immutable.remove(state.data, action.deckTitle));
     case types.DECKS_UPDATE_FILTER: {
       return immutable.set(state, 'filter', action.filter);
     }
