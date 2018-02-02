@@ -11,6 +11,24 @@ export const initialState = {
       }, {
         question: 'Where do you make AJAX requests in React?',
         answer: 'The componentDidMount lifecycle method.',
+      }, {
+        question: 'What is React?',
+        answer: 'A library for managing user interfaces.',
+      }, {
+        question: 'Where do you make AJAX requests in React?',
+        answer: 'The componentDidMount lifecycle method.',
+      }, {
+        question: 'What is React?',
+        answer: 'A library for managing user interfaces.',
+      }, {
+        question: 'Where do you make AJAX requests in React?',
+        answer: 'The componentDidMount lifecycle method.',
+      }, {
+        question: 'What is React?',
+        answer: 'A library for managing user interfaces.',
+      }, {
+        question: 'Where do you make AJAX requests in React?',
+        answer: 'The componentDidMount lifecycle method.',
       }],
     },
     JavaScript: {

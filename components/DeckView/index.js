@@ -25,6 +25,7 @@ const DeckModes = TabNavigator({
       backgroundColor: '#e1e8ee',
     },
   },
+  swipeEnabled: false,
 });
 
 class DeckView extends Component {

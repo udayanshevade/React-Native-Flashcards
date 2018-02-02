@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   card: {
-    flex: 1,
     maxWidth: '100%',
     margin: 25,
     alignItems: 'center',
