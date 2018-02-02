@@ -12,6 +12,7 @@ import {
   Button,
 } from 'react-native-elements';
 import cardStyles from './styles';
+import quizStyles from '../Quiz/styles';
 import basicStyles from '../../styles';
 import { itemWidth, itemHeight } from '../../utils';
 
@@ -44,6 +45,11 @@ class QuizCard extends Component {
       outputRange: [0, 1],
     });
   }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.active && !nextProps.active && this.state.flipped) {
+      this.flipCard();
+    }
+  }
   flipCard = () => {
     if (this.state.value >= 90) {
       Animated.timing(this.state.animatedValue, {
@@ -75,14 +81,12 @@ class QuizCard extends Component {
     };
     const {
       cardData: { question, answer },
+      active,
     } = this.props;
     const { flipped } = this.state;
     return (
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-      }}>
-        <View style={{ flex: 0 }}>
+      <View style={styles.outerContainer}>
+        <View style={styles.outerContainer}>
           <Animated.View
             style={[
               styles.flipCard,
@@ -101,7 +105,7 @@ class QuizCard extends Component {
               >
                 {question}
               </Text>
-              <View style={styles.buttonTray}>
+              <View style={quizStyles.buttonTray}>
                 <Button
                   backgroundColor="#2096F3"
                   icon={{ name: 'refresh', type: 'evilicons' }}
@@ -131,7 +135,7 @@ class QuizCard extends Component {
               >
                 {answer}
               </Text>
-              <View style={styles.buttonTray}>
+              <View style={quizStyles.buttonTray}>
                 <Button
                   backgroundColor="#2096F3"
                   icon={{ name: 'refresh', type: 'evilicons' }}
@@ -150,6 +154,10 @@ class QuizCard extends Component {
 }
 
 const styles = StyleSheet.create({
+  outerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   flipCard: {
     marginTop: 20,
     marginBottom: 20,
@@ -165,11 +173,6 @@ const styles = StyleSheet.create({
   flipCardBack: {
     position: 'absolute',
     top: 0,
-  },
-  buttonTray: {
-    margin: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
   },
 });
 

@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
   },
   deckContainer: {
     alignItems: 'center',
+    elevation: 1,
   },
   list: {
     borderTopWidth: 0,
