@@ -2,12 +2,15 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  title: {
+    fontSize: 32,
   },
   deckContainer: {
-    alignItems: 'center',
     elevation: 1,
+    shadowColor: '#666',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
   },
   list: {
     borderTopWidth: 0,
@@ -22,10 +25,7 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
   },
   deckCardBorders: {
-    borderTopLeftRadius: 5,
-    borderBottomRightRadius: 5,
-    borderBottomLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderRadius: 5,
   },
   subtitle: {
     textAlign: 'center',

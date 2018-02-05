@@ -9,7 +9,7 @@ import {
 import {
   Text,
   Card,
-  Button,
+  Icon
 } from 'react-native-elements';
 import cardStyles from './styles';
 import quizStyles from '../Quiz/styles';
@@ -50,21 +50,55 @@ class QuizCard extends Component {
       this.flipCard();
     }
   }
+  invertFlipState = () => {
+    this.setState({
+      flipped: !this.state.flipped,
+    });
+  }
   flipCard = () => {
     if (this.state.value >= 90) {
       Animated.timing(this.state.animatedValue, {
         toValue: 0,
         duration: 400,
-      }).start();
+      }).start(this.invertFlipState);
     } else {
       Animated.timing(this.state.animatedValue, {
         toValue: 180,
         duration: 400,
-      }).start();
+      }).start(this.invertFlipState);
     }
-    this.setState({
-      flipped: !this.state.flipped,
-    });
+  }
+  renderButtonTray = () => {
+    const { result } = this.props;
+    const correct = result === 'correct';
+    const incorrect = result === 'incorrect';
+    return (
+      <View style={quizStyles.buttonTray}>
+        <Icon
+          color={correct ? 'green' : '#efefef'}
+          onPress={() => {
+            this.props.setQuestionCorrect('correct');
+          }}
+          title="correct"
+          name="check"
+          type="feather"
+        />
+        <Icon
+          color="#2096F3"
+          name={`flip-to-${this.state.flipped ? 'front' : 'back'}`}
+          onPress={() => {
+            this.flipCard();
+          }}
+        />
+        <Icon
+          color={incorrect ? 'red' : '#efefef'}
+          onPress={() => {
+            this.props.setQuestionCorrect('incorrect');
+          }}
+          name="close"
+        />
+      </View>
+    );
   }
   render() {
     const frontAnimateStyle = {
@@ -81,9 +115,9 @@ class QuizCard extends Component {
     };
     const {
       cardData: { question, answer },
-      active,
     } = this.props;
     const { flipped } = this.state;
+    const buttonTray = this.renderButtonTray();
     return (
       <View style={styles.outerContainer}>
         <View style={styles.outerContainer}>
@@ -95,7 +129,7 @@ class QuizCard extends Component {
             ]}
             pointerEvents={flipped ? 'none' : 'auto'}
           >
-            <ScrollView>
+            <ScrollView contentContainerStyle={styles.innerContainer}>
               <Text
                 h4
                 style={[
@@ -105,16 +139,7 @@ class QuizCard extends Component {
               >
                 {question}
               </Text>
-              <View style={quizStyles.buttonTray}>
-                <Button
-                  backgroundColor="#2096F3"
-                  icon={{ name: 'refresh', type: 'evilicons' }}
-                  title="answer"
-                  onPress={() => {
-                    this.flipCard();
-                  }}
-                />
-              </View>
+              {buttonTray}
             </ScrollView>
           </Animated.View>
           <Animated.View
@@ -126,7 +151,7 @@ class QuizCard extends Component {
             ]}
             pointerEvents={!flipped ? 'none' : 'auto'}
           >
-            <ScrollView>
+            <ScrollView contentContainerStyle={styles.innerContainer}>
               <Text
                 style={[
                   cardStyles.cardText,
@@ -135,16 +160,7 @@ class QuizCard extends Component {
               >
                 {answer}
               </Text>
-              <View style={quizStyles.buttonTray}>
-                <Button
-                  backgroundColor="#2096F3"
-                  icon={{ name: 'refresh', type: 'evilicons' }}
-                  title="question"
-                  onPress={() => {
-                    this.flipCard();
-                  }}
-                />
-              </View>
+              {buttonTray}
             </ScrollView>
           </Animated.View>
         </View>
@@ -158,6 +174,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  innerContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
   flipCard: {
     marginTop: 20,
     marginBottom: 20,
@@ -168,6 +188,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backfaceVisibility: 'hidden',
     backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#ccc',
     shadowRadius: 5,
   },
   flipCardBack: {

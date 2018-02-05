@@ -9,5 +9,18 @@ export default StyleSheet.create({
   carouselContainer: {
     flex: 1,
     justifyContent: 'space-between',
+    position: 'relative',
+  },
+  counter: {
+    marginTop: 10,
+    textAlign: 'center',
+    color: '#aaa',
+  },
+  completionBar: {
+    backgroundColor: '#2096f3',
+  },
+  scoreText: {
+    marginTop: 20,
+    textAlign: 'center',
   },
 });

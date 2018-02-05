@@ -1,4 +1,6 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
+
+export const isIOS = Platform.OS === 'ios';
 
 export const FLASHCARD_DECKS_STORAGE_KEY = 'FLASHCARD_DECKS_STORAGE_KEY';
 
@@ -21,3 +23,18 @@ export const fuzzyMatch = (str, pattern) => {
   const p = pattern.split("").reduce((a, b) => a + ".*" + b);
   return (new RegExp(p)).test(str);
 };
+
+
+export const shuffle = (a = []) => {
+  const _a = [...a];
+  let j;
+  let x;
+  let i;
+  for (i = _a.length - 1; i > 0; i -= 1) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = _a[i];
+    _a[i] = _a[j];
+    _a[j] = x;
+  }
+  return _a;
+}

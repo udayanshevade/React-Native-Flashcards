@@ -15,12 +15,14 @@ export const CardPreview = ({ cardData: { question, answer }, handleButtonPress 
     <Text h4 style={[styles.cardText, styles.question]}>{question}</Text>
     <Divider style={styles.divider} />
     <Text style={[styles.cardText, styles.answer]}>{answer}</Text>
-    <Button
-      backgroundColor="#2096F3"
-      icon={{ name: 'edit', type: 'feather' }}
-      title="edit"
-      onPress={handleButtonPress}
-    />
+    {handleButtonPress &&
+      <Button
+        backgroundColor="#2096F3"
+        icon={{ name: 'edit', type: 'feather' }}
+        title="edit"
+        onPress={handleButtonPress}
+      />
+    }
   </Card>
 );
 
