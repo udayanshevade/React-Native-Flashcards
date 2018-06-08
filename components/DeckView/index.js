@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Platform } from 'react-native';
+import { View, Text } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 import Quiz from '../Quiz';
 import Deck from '../Deck';
@@ -32,16 +32,25 @@ const DeckModes = TabNavigator({
 class DeckView extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.title,
+    headerTitleStyle: styles.titleStyle,
+    headerRight: <View />,
   })
   componentWillUnmount() {
     this.props.resetQuiz();
   }
   render() {
     const { deckData } = this.props;
-    return (
-      <View style={styles.container}>
-        <DeckModes screenProps={{ deckData }} />
-      </View>
+    return deckData
+    ? (<View style={styles.container}>
+      <DeckModes screenProps={{ deckData }} />
+    </View>) : (
+      <Text
+        style={[
+          styles.textCenter,
+          styles.title
+        ]}>
+        Deck unavailable
+      </Text>
     );
   }
 }

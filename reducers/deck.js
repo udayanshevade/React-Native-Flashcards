@@ -8,6 +8,13 @@ export const initialState = {
   results: {},
   swipeDefaultCorrect: true,
   isInitialized: false,
+  isEditVisible: false,
+  cardEditForm: {
+    id: null,
+    question: '',
+    answer: '',
+  },
+  isEditing: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -33,6 +40,14 @@ const reducer = (state = initialState, action) => {
     case types.DECK_QUIZ_RESET: {
       return { ...initialState };
     }
+    case types.DECK_SET_EDIT_OVERLAY_VISIBLE:
+      return immutable.set(state, 'isEditVisible', action.isEditVisible);
+    case types.DECK_SET_IS_EDITING_CARD:
+      return immutable.set(state, 'isEditing', action.isEditing);
+    case types.DECK_EDIT_CARD_VALUE:
+      return immutable.set(state, ['cardEditForm', action.field], action.val);
+    case types.DECK_CLEAR_CARD_EDIT_VALUES:
+      return immutable.set(state, 'cardEditForm', { ...initialState.cardEditForm });
     default:
       return state;
   }

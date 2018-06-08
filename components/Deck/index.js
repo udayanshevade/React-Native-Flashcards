@@ -1,75 +1,100 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Text, View, ScrollView } from 'react-native';
 import {
-  View,
-  ScrollView,
-} from 'react-native';
-import {
-  Text,
   FormInput,
   FormLabel,
   Button,
 } from 'react-native-elements';
 import CardsList from '../Cards';
 import CardUpdate from '../CardUpdate';
+import {
+  deckSetEditOverlayVisible,
+  deckSetIsEditingCard,
+  deckEditCardValue,
+  deckClearEditValues,
+  deckUpdateCard,
+} from '../../actions/deck';
 import styles from '../../styles';
 
-class Deck extends Component {
-  state = {
-    overlayVisible: false,
-    editing: false,
-    id: null,
-    question: '',
-    answer: '',
-  }
-  setOverlayVisibility = (overlayVisible) => {
-    this.setState({
-      overlayVisible,
-    });
-  }
-  editField = ({ field, val }) => {
-    this.setState({
-      [field]: val,
-    });
-  }
-  clearFields = () => {
-    this.setState({
-      id: null,
-      question: '',
-      answer: '',
-      editing: false,
-    });
-  }
-  render() {
-    const { screenProps : { deckData } } = this.props;
-    const { overlayVisible, editing, id, question, answer } = this.state;
-    return (
-      <ScrollView style={styles.container}>
-        <Button
-          backgroundColor="#2096F3"
-          onPress={() => {
-            this.setOverlayVisibility(true);
-          }}
-          title="Add card"
-          buttonStyle={styles.button}
-        />
-        <CardsList
-          deckData={deckData}
-          handleCardButtonPress={() => {
-            this.setOverlayVisibility(!overlayVisible);
-          }}
-        />
-        <CardUpdate
-          isVisible={overlayVisible}
-          editing={editing}
-          editField={this.editField}
-          closeOverlay={() => {
-            this.setOverlayVisibility(false);
-            this.clearFields();
-          }}
-        />
-      </ScrollView>
-    );
-  }
-}
+const Deck = ({
+  screenProps : { deckData },
+  isEditing,
+  setIsEditing,
+  setOverlayVisible,
+  clearFields,
+  editField,
+  editValues,
+  overlayVisible,
+  updateCard,
+}) => (
+  <ScrollView style={styles.container}>
+    {deckData && (
+      <Text
+        style={[
+          styles.textCenter,
+          {
+            marginTop: 10,
+            marginBottom: 10
+          },
+        ]}
+      >
+        {deckData.questions.length} cards
+      </Text>
+    )}
+    <Button
+      backgroundColor="#2096F3"
+      onPress={() => {
+        setIsEditing(false);
+        editField(deckData.questions.length, 'id');
+        setOverlayVisible(true);
+      }}
+      title="Add card"
+      buttonStyle={styles.button}
+    />
+    <CardsList
+      deckData={deckData}
+      handleClose={() => {
+        console.log('opening close confirm dialog');
+      }}
+      handleCardButtonPress={(cardData, id) => {
+        setIsEditing(true);
+        editField(id, 'id');
+        Object.keys(cardData).forEach((field) => {
+          editField(cardData[field], field);
+        })
+        setOverlayVisible(true);
+      }}
+    />
+    <CardUpdate
+      deckTitle={deckData.title}
+      isVisible={overlayVisible}
+      isEditing={isEditing}
+      editField={editField}
+      exitCardEdit={() => {
+        setOverlayVisible(false);
+        clearFields();
+      }}
+      updateCard={(data) => {
+        updateCard(data);
+        setOverlayVisible(false);
+        clearFields();
+      }}
+      values={editValues}
+    />
+  </ScrollView>
+);
 
-export default Deck;
+const mapStateToProps = ({ deck }, { screenProps: { deckData } }) => ({
+  editValues: deck.cardEditForm,
+  isEditing: deck.isEditing,
+  overlayVisible: deck.isEditVisible,
+});
+
+export default connect(mapStateToProps, {
+  setOverlayVisible: deckSetEditOverlayVisible,
+  setIsEditing: deckSetIsEditingCard,
+  editField: deckEditCardValue,
+  clearFields: deckClearEditValues,
+  updateCard: deckUpdateCard,
+})(Deck);

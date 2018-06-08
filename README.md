@@ -1,3 +1,16 @@
+# React Native Flash Cards
+This is a sample project for React Native which allows users to create and review decks of custom flash cards.
+
+- Create a new deck
+- Add or edit cards within a deck
+- Review deck cards in quiz mode
+- Filter search decks
+
+## Platform
+It has been tested on Android device (Nexus 5) using Genymotion 6.0.0 and Expo XDE.
+
+### Boilerplate 
+
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).

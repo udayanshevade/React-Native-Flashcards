@@ -17,6 +17,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  titleStyle: {
+    alignSelf: 'center',
+  },
 });
 
 export default styles;

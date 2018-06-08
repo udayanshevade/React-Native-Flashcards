@@ -59,7 +59,7 @@ const QuizIntroText = ({
       <Text
         style={[basicStyles.textCenter, styles.introText]}
       >
-        {'To see an answer (or flip back to the question), click the '}
+        {'Use the '}
       </Text>
       <Icon
         color="#666"
@@ -67,7 +67,7 @@ const QuizIntroText = ({
         iconStyle={styles.inlineButton}
       />
       <Text style={[basicStyles.textCenter, styles.introText]}>
-        {' control.'}
+        {' control to flip a card.'}
       </Text>
     </View>
     <View style={{ marginTop: 15 }}>
@@ -97,10 +97,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'stretch',
+    justifyContent: 'space-between',
     margin: 20,
     backgroundColor: 'white',
-    paddingLeft: 15,
-    paddingRight: 15,
+    padding: 15,
   },
   textContainer: {
     flexDirection: 'row',

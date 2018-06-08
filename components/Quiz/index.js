@@ -5,6 +5,7 @@ import { Button } from 'react-native-elements';
 import Quiz from './Quiz';
 import QuizIntroText from './IntroText';
 import Result from './Result';
+import CompletionBar from '../CompletionBar';
 import {
   deckSetTesting,
   deckQuizSetActiveSlide,
@@ -22,6 +23,18 @@ import {
   getIncorrectQuestions,
 } from './selectors';
 import basicStyles from '../../styles';
+import styles from './styles';
+
+const Placeholder = () => (
+  <View>
+    <Text h5 style={[basicStyles.title, basicStyles.textCenter]}>
+      You haven't added any cards to this deck.
+    </Text>
+    <Text h5 style={[basicStyles.title, basicStyles.textCenter]}>
+      Manage your deck in the 'Deck' tab.
+    </Text>
+  </View>
+);
 
 class QuizContainer extends Component {
   componentDidMount() {
@@ -53,6 +66,9 @@ class QuizContainer extends Component {
       incorrectQuestions,
     } = this.props;
     const totalSlides = questions.length;
+    if (!totalSlides) {
+      return <Placeholder />;
+    }
     let buttonTitle = 'Start';
     if (testing) {
       if (activeSlide) {
@@ -91,6 +107,14 @@ class QuizContainer extends Component {
           <QuizIntroText
             swipeDefaultCorrect={swipeDefaultCorrect}
             setDefaultSwipeCorrect={setDefaultSwipeCorrect}
+          />
+        }
+        {testing && !finished &&
+          <CompletionBar
+            min={0}
+            max={questions.length}
+            current={questions.length - activeSlide}
+            style={styles.completionBar}
           />
         }
         {testing && !finished &&

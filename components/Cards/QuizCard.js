@@ -73,7 +73,7 @@ class QuizCard extends Component {
     const correct = result === 'correct';
     const incorrect = result === 'incorrect';
     return (
-      <View style={quizStyles.buttonTray}>
+      <View style={[quizStyles.buttonTray, styles.buttonTray]}>
         <Icon
           color={correct ? 'green' : '#efefef'}
           onPress={() => {
@@ -195,6 +195,9 @@ const styles = StyleSheet.create({
   flipCardBack: {
     position: 'absolute',
     top: 0,
+  },
+  buttonTray: {
+    minWidth: 150,
   },
 });
 

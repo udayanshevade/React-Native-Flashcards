@@ -4,7 +4,11 @@ import { fuzzyMatch } from '../../utils';
 export const getDecks = ({ data }) => data;
 export const getDecksFilter = ({ filter }) => filter;
 export const getDecksLoading = ({ isLoading }) => isLoading;
-export const getSelectedDeck = (data, title) => data && title ? data[title] : null;
+export const getSelectedDeck = (data, title) => {
+  console.log(data);
+  console.log(title);
+  return data && title ? data[title] : null;
+};
 
 export const getFilteredDecks = createSelector(
   [getDecks, getDecksFilter],

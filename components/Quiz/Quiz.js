@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
 import QuizCard from '../Cards/QuizCard';
-import CompletionBar from '../CompletionBar';
 import { sliderWidth, itemWidth } from '../../utils';
 import basicStyles from '../../styles';
 import quizStyles from './styles';
@@ -48,12 +47,6 @@ class Quiz extends Component {
     const lastSlide = totalSlides - 1;
     return (
       <View style={quizStyles.carouselContainer}>
-        <CompletionBar
-          min={0}
-          max={lastSlide}
-          current={lastSlide - activeSlide}
-          style={quizStyles.completionBar}
-        />
         <Text style={quizStyles.counter}>{totalSlides - activeSlide}/{totalSlides}</Text>
         <Carousel
           data={questions}

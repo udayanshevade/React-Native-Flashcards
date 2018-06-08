@@ -57,7 +57,7 @@ const Decks = ({ decks, navigation }) => {
         )
         : (
           <View style={basicStyles.container}>
-            <Text style={basicStyles.textCenter}>No decks found. Create one. Click the button above to start.</Text>
+            <Text style={[basicStyles.textCenter, styles.emptyText]}>No decks found. Create one. Click the button above to start.</Text>
           </View>
         )
       }

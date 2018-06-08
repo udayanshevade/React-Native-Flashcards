@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     margin: 25,
     alignItems: 'center',
+    position: 'relative',
   },
   centered: {
     textAlign: 'center',
@@ -36,6 +37,11 @@ const styles = StyleSheet.create({
   divider: {
     backgroundColor: '#e1e8ee',
     margin: 15,
+  },
+  closeIcon: {
+    position: 'absolute',
+    top: -20,
+    right: -20,
   },
 });
 

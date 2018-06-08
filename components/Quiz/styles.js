@@ -19,7 +19,7 @@ export default StyleSheet.create({
   completionBar: {
     backgroundColor: '#2096f3',
   },
-  scoreText: {
+  titleText: {
     marginTop: 20,
     textAlign: 'center',
   },

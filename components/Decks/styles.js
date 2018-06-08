@@ -30,6 +30,10 @@ const styles = StyleSheet.create({
   subtitle: {
     textAlign: 'center',
   },
+  emptyText: {
+    margin: 25,
+    fontSize: 16,
+  },
 });
 
 export default styles;

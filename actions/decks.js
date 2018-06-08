@@ -27,29 +27,20 @@ export const decksUpdateFilter = filter => ({
   filter,
 });
 
-export const decksCreateNew = newDeckData => (dispatch) => {
-  if (!newDeckData || !newDeckData.title) return;
-  return AsyncStorage
-    .getItem(FLASHCARD_DECKS_STORAGE_KEY)
-      .then((res) => {
-        const deckData = JSON.parse(res);
-        const deckExists = newDeckData.title in deckData;
-        if (deckExists) return;
-        return AsyncStorage.mergeItem(FLASHCARD_DECKS_STORAGE_KEY, {
-          [newDeckData.title]: JSON.stringify(newDeckData),
-        }).then((res) => {
-          console.log(res);
-          dispatch(dispatch(decksAddData(newDeckData)));
-          return res;
-        });
-      });
-};
+export const fetchDecksData = () => dispatch =>
+  AsyncStorage.getItem(FLASHCARD_DECKS_STORAGE_KEY)
+    .then((res) => {
+      const decksData = JSON.parse(res) || {};
+      console.log(decksData);
+      dispatch(decksSetData(decksData));
+      return decksData;
+    });
 
 export const decksRemove = deckTitle => (dispatch) => {
   return AsyncStorage
     .getItem(FLASHCARD_DECKS_STORAGE_KEY)
     .then((res) => {
-      const data = JSON.parse(res);
+      const data = JSON.parse(res) || {};
       data[deckTitle] = undefined;
       delete data[deckTitle];
       return AsyncStorage.setItem(FLASHCARD_DECKS_STORAGE_KEY, data)
@@ -64,15 +55,14 @@ export const decksUpdateData = updatedData => (dispatch) => {
   return AsyncStorage
     .getItem(FLASHCARD_DECKS_STORAGE_KEY)
       .then((res) => {
-        const deckData = JSON.parse(res);
-        const deckExists = updatedData.title in deckData;
+        const decks = JSON.parse(res) || {};
+        const deckData = decks.hasOwnProperty(updatedData.title);
+        const deckExists = !!deckData;
         if (!deckExists) return;
-        return AsyncStorage.mergeItem(FLASHCARD_DECKS_STORAGE_KEY, {
-          [newDeckData.title]: JSON.stringify(newDeckData),
-        }).then((res) => {
-          console.log(res);
-          dispatch(dispatch(decksAddData(newDeckData)));
-          return res;
+        return AsyncStorage.mergeItem(FLASHCARD_DECKS_STORAGE_KEY, JSON.stringify({
+          [updatedData.title]: updatedData,
+        })).then(() => {
+          dispatch(dispatch(decksAddData(updatedData)));
         });
       });
 };

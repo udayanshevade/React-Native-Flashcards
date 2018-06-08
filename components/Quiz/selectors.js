@@ -20,9 +20,8 @@ export const getQuizScore = createSelector(
   (questions, results) => {
     const total = questions.length;
     const answered = Object.keys(results).map(id => results[id] === 'correct');
-    const answeredCorrectly = answered.filter(a => a);
-    const numberAnsweredCorrectly = answeredCorrectly.length;
-    const score = Math.round(numberAnsweredCorrectly / total) * 100;
+    const answeredCorrectly = answered.filter(a => a).length;
+    const score = Math.round((answeredCorrectly / total) * 100);
     return score;
   }
 );

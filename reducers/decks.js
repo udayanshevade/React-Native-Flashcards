@@ -2,64 +2,7 @@ import immutable from 'object-path-immutable';
 import * as types from '../actions/types';
 
 export const initialState = {
-  data: {
-    React: {
-      title: 'React',
-      questions: [{
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces.',
-      }, {
-        question: 'Where do you make AJAX requests in React?',
-        answer: 'The componentDidMount lifecycle method.',
-      }, {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces.',
-      }, {
-        question: 'Where do you make AJAX requests in React?',
-        answer: 'The componentDidMount lifecycle method.',
-      }, {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces.',
-      }, {
-        question: 'Where do you make AJAX requests in React?',
-        answer: 'The componentDidMount lifecycle method.',
-      }, {
-        question: 'What is React?',
-        answer: 'A library for managing user interfaces.',
-      }, {
-        question: 'Where do you make AJAX requests in React?',
-        answer: 'The componentDidMount lifecycle method.',
-      }],
-    },
-    JavaScript: {
-      title: 'JavaScript',
-      questions: [{
-        question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.',
-      }],
-    },
-    Redux: {
-      title: 'Redux',
-      questions: [{
-        question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.',
-      }],
-    },
-    Synonyms: {
-      title: 'Synonyms',
-      questions: [{
-        question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.',
-      }],
-    },
-    Fables: {
-      title: 'Fables',
-      questions: [{
-        question: 'What is a closure?',
-        answer: 'The combination of a function and the lexical environment within which that function was declared.',
-      }],
-    },
-  },
+  data: {},
   isLoading: false,
   filter: '',
 };
